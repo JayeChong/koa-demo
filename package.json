@@ -1,0 +1,31 @@
+{
+  "name": "koa-graphql",
+  "version": "1.0.0",
+  "description": "a demo of koa and GraphQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "koa",
+    "GraphQL",
+    "demo"
+  ],
+  "author": "Jaye Chong",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.3.0",
+    "koa-static": "^4.0.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-latest-node": "^0.4.0",
+    "i": "^0.3.6",
+    "nodemon": "^1.14.8"
+  }
+}
