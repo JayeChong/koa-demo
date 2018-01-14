@@ -1,7 +1,13 @@
-import Koa from 'koa';
-import KoaStatic from 'koa-static';
-import Router from 'koa-router';
-import bodyParser from 'koa-bodyparser';
+import Koa from 'koa'
+import KoaStatic from 'koa-static'
+import Router from 'koa-router'
+import bodyParser from 'koa-bodyparser'
+
+import {database} from './mongodb' // 引入mongodb
+import {saveInfo, fetchInfo} from './controllers/info' // 引入info controller
+import {saveStudent, fetchStudent, fetchStudentDetail} from './controllers/student' // 引入 student controller
+
+database() // 链接数据库并且初始化数据模型
 
 const app = new Koa()
 const router = new Router();
@@ -9,37 +15,22 @@ const router = new Router();
 app.use(bodyParser());
 app.use(KoaStatic(__dirname + '/public'));
 
-// router.get('/', (ctx, next) => {
-//   ctx.body="test page"
-// });
+router.get('/test', (ctx, next) => {
+  ctx.body="test page"
+});
 
-// x-response-time
-async function xResponse (ctx, next) {
-  const start = Date.now();
-  await next();
-  const ms = Date.now() - start;
-  ctx.set('X-Response-time', `${ms}ms`);
-};
+// 设置每一个路由对应的相对的控制器
+router.post('/saveinfo', saveInfo)
+router.get('/info', fetchInfo)
 
-async function timeLogger (ctx, next) {
-  const start = Date.now();
-  await next();
-  const ms = Date.now() - start;
-  const info = `${ctx.method} ${ctx.url} - ${ms}ms`;
-  console.log(info);
-  ctx.body += info;
-}
-
-async function bodyPrinter (ctx, next) {
-  ctx.body = "Hello Koa \n";
-}
-
+router.post('/savestudent', saveStudent)
+router.get('/student', fetchStudent)
+router.get('/studentDetail', fetchStudentDetail)
 
 app
-  .use(xResponse)
-  .use(timeLogger)
-  .use(bodyPrinter)
+  .use(router.routes())
+  .use(router.allowedMethods());
 
 app.listen(4000);
 
-console.log('server listen port: ' + 4000)
+console.log('graphQL server listen port: ' + 4000)
