@@ -6,7 +6,12 @@ require('./schema/student')
 export const database = () => {
   mongoose.set('debug', true)
 
-  mongoose.connect(config.dbPath)
+  // 版本问题
+  mongoose.Promise = global.Promise;
+  mongoose.connect(config.dbPath, {
+    // 版本问题
+    useMongoClient: true,
+  })
 
   mongoose.connection.on('disconnected', () => {
     mongoose.connect(config.dbPath)
